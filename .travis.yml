@@ -133,9 +133,11 @@ matrix:
     # Windows builds
     - os: windows
       env: BUILD_TYPE=Release CMAKE_GENERATOR="MSYS Makefiles"
+      compiler: gcc
 
     - os: windows
       env: BUILD_TYPE=Release CMAKE_GENERATOR="MSYS Makefiles"
+      compiler: gcc
 
     # Code coverage
     - os: linux
