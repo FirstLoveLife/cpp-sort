@@ -132,10 +132,10 @@ matrix:
 
     # Windows builds
     - os: windows
-      env: BUILD_TYPE=Release CMAKE_GENERATOR="MinGW Makefiles"
+      env: BUILD_TYPE=Release CMAKE_GENERATOR="MSYS Makefiles"
 
     - os: windows
-      env: BUILD_TYPE=Release CMAKE_GENERATOR="MinGW Makefiles"
+      env: BUILD_TYPE=Release CMAKE_GENERATOR="MSYS Makefiles"
 
     # Code coverage
     - os: linux
