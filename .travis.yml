@@ -130,6 +130,13 @@ matrix:
             - cmake
       compiler: clang
 
+    # Windows builds
+    - os: windows
+      env: BUILD_TYPE=Release CMAKE_GENERATOR="MinGW Makefiles"
+
+    - os: windows
+      env: BUILD_TYPE=Release CMAKE_GENERATOR="MinGW Makefiles"
+
     # Code coverage
     - os: linux
       sudo: false
