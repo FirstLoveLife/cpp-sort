@@ -133,7 +133,7 @@ matrix:
     # Windows GCC
     - os: windows
       language: sh
-      env: BUILD_TYPE=DebugCMAKE_GENERATOR="MinGW Makefiles"
+      env: BUILD_TYPE=Debug CMAKE_GENERATOR="MinGW Makefiles"
       compiler: gcc
 
     - os: windows
