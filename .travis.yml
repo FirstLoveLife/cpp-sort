@@ -140,17 +140,6 @@ matrix:
       language: sh
       env: BUILD_TYPE=Release CMAKE_GENERATOR="MinGW Makefiles"
       compiler: gcc
-      
-    # Windows Clang
-    - os: windows
-      language: sh
-      env: BUILD_TYPE=Debug CMAKE_GENERATOR="MinGW Makefiles"
-      compiler: clang
-
-    - os: windows
-      language: sh
-      env: BUILD_TYPE=Release CMAKE_GENERATOR="MinGW Makefiles"
-      compiler: clang
 
     # Code coverage
     - os: linux
