@@ -46,6 +46,37 @@ namespace cppsort
 {
     namespace detail
     {
+        struct lambda_substitute
+        {
+            template<typename Iterator, typename Data>
+            auto operator()(association<Iterator, Data>& assoc) const
+                -> Data&
+            {
+                return assoc.data;
+            }
+
+            template<typename Iterator, typename Data>
+            auto operator()(const association<Iterator, Data>& assoc) const
+                -> const Data&
+            {
+                return assoc.data;
+            }
+
+            template<typename Value, typename Data>
+            auto operator()(associated_value<Value, Data>& assoc) const
+                -> Data&
+            {
+                return assoc.data;
+            }
+
+            template<typename Value, typename Data>
+            auto operator()(const associated_value<Value, Data>& assoc) const
+                -> const Data&
+            {
+                return assoc.data;
+            }
+        };
+
         ////////////////////////////////////////////////////////////
         // Adapter
 
@@ -92,8 +123,12 @@ namespace cppsort
                 return Sorter{}(
                     make_associate_iterator(projected.get()),
                     make_associate_iterator(projected.get() + size),
-                    std::move(compare),
-                    [](const auto& value) -> auto& { return value.data; }
+                    std::move(compare), lambda_substitute{}
+                    /*[](auto&& value) -> decltype(auto) {
+                        show_type<decltype(std::forward<decltype(value)>(value))>();
+                        show_type<decltype(std::forward<decltype(value)>(value).data)>();
+                        return std::forward<decltype(value)>(value).data;
+                    }*/
                 );
             }
 

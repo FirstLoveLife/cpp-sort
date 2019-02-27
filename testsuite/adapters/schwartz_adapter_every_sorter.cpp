@@ -66,10 +66,10 @@ TEMPLATE_TEST_CASE( "every sorter with Schwartzian transform adapter", "[schwart
     std::mt19937 engine(Catch::rngSeed());
     std::shuffle(std::begin(collection), std::end(collection), engine);
 
-    using sorter = cppsort::schwartz_adapter<TestType>;
-    cppsort::sort(sorter{}, collection, &wrapper<>::value);
+    cppsort::schwartz_adapter<TestType> sort{};
+    sort(collection, &wrapper<>::value);
     CHECK( helpers::is_sorted(std::begin(collection), std::end(collection),
-                                  std::less<>{}, &wrapper<>::value) );
+                              std::less<>{}, &wrapper<>::value) );
 }
 
 TEST_CASE( "type-specific sorters with Schwartzian transform adapter", "[schwartz_adapter]" )

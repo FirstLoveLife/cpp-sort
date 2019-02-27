@@ -517,10 +517,11 @@ namespace detail
         using next = SubKey<void>;
         using sub_key_type = T;
 
-        static auto sub_key(const T& value, void*)
-            -> const T&
+        template<typename U>
+        static auto sub_key(U&& value, void*)
+            -> decltype(std::forward<U>(value))
         {
-            return value;
+            return std::forward<U>(value);
         }
     };
 
@@ -750,14 +751,14 @@ namespace detail
     {
         auto proj = utility::as_function(projection);
 
-        const auto& largest_match_list = proj(*begin);
+        auto&& largest_match_list = proj(*begin);
         std::size_t largest_match = largest_match_list.size();
         if (largest_match == start_index) {
             return start_index;
         }
 
         for (++begin ; begin != end ; ++begin) {
-            const auto& current_list = proj(*begin);
+            auto&& current_list = proj(*begin);
             std::size_t current_size = current_list.size();
             if (current_size < largest_match) {
                 largest_match = current_size;
@@ -793,10 +794,11 @@ namespace detail
             std::size_t current_index = sort_data->current_index;
             void* next_sort_data = sort_data->next_sort_data;
             auto current_key = [&](auto&& elem) -> decltype(auto) {
-                return CurrentSubKey::sub_key(proj(elem), next_sort_data);
+                auto&& projected = proj(std::forward<decltype(elem)>(elem));
+                return CurrentSubKey::sub_key(std::forward<decltype(projected)>(projected), next_sort_data);
             };
             auto element_key = [&](auto&& elem) -> decltype(auto) {
-                return ElementSubKey::base::sub_key(elem, sort_data);
+                return ElementSubKey::base::sub_key(std::forward<decltype(elem)>(elem), sort_data);
             };
             sort_data->current_index = current_index = CommonPrefix(begin, end, current_index, current_key, element_key);
             auto end_of_shorter_ones = std::partition(begin, end, [&](auto&& elem) {
